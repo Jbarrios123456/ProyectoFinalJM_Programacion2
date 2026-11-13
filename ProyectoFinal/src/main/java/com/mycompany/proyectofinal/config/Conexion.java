@@ -8,7 +8,7 @@ public class Conexion {
  
     private static final String URL = "jdbc:mysql://localhost:3306/proyectofinal?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
     private static final String USUARIO = "root";
-    private static final String CLAVE = "Mynor45074472";
+    private static final String CLAVE = "45074472";
  
     public static Connection obtener() throws SQLException {
         return DriverManager.getConnection(URL, USUARIO, CLAVE);

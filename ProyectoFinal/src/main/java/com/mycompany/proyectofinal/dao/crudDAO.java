@@ -1,16 +1,15 @@
 package com.mycompany.proyectofinal.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
-/**
- *
- * @author junio
- * @param <T>
- */
 public interface crudDAO<T> {
-    boolean insertar (T objeto);
-    boolean actualizar (T objeto);
-    boolean eliminar (int id);
-    T buscarporId (int id);
-    List<T> listar(); 
+
+    void insertar(T objeto) throws SQLException;
+
+    void actualizar(T objeto) throws SQLException;
+
+    T buscarPorId(int id) throws SQLException;
+
+    List<T> listar() throws SQLException;
 }

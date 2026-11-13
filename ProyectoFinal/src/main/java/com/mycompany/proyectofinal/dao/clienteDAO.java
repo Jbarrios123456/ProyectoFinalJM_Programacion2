@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class clienteDAO {
+public class clienteDAO implements crudDAO<Cliente> {
 
     private static final String COLUMNAS = "id_cliente, nombre, telefono, estado, saldo_pendiente";
 
