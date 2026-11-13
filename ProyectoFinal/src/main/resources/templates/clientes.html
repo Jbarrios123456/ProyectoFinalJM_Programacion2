@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clientes - Rueda Libre</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4">
+    <nav class="nav nav-pills mb-4">
+        <a class="nav-link active" th:href="@{/clientes}">Clientes</a>
+        <a class="nav-link" th:href="@{/equipos}">Equipos</a>
+    </nav>
+    <h1 class="mb-4">Registro de Clientes</h1>
+
+    <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+    <div class="alert alert-success" th:if="${mensaje}" th:text="${mensaje}"></div>
+
+    <form th:object="${cliente}"
+          th:action="${editando} ? @{/clientes/actualizar} : @{/clientes/guardar}"
+          method="post" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <label class="form-label">Identificador</label>
+            <input type="number" class="form-control" th:field="*{idCliente}" th:readonly="${editando}" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" th:field="*{nombre}" required>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Telefono</label>
+            <input type="text" class="form-control" th:field="*{telefono}" required>
+        </div>
+        <div class="col-md-2 d-flex align-items-end gap-2">
+            <button type="submit" class="btn btn-primary" th:text="${editando} ? 'Actualizar' : 'Guardar'">Guardar</button>
+            <a th:if="${editando}" th:href="@{/clientes}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+
+    <table class="table table-striped table-bordered align-middle">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Telefono</th>
+                <th>Estado</th>
+                <th>Saldo pendiente</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="c : ${clientes}">
+                <td th:text="${c.idCliente}"></td>
+                <td th:text="${c.nombre}"></td>
+                <td th:text="${c.telefono}"></td>
+                <td th:text="${c.estado}"></td>
+                <td th:text="${'Q' + c.saldoPendiente}"></td>
+                <td class="d-flex gap-2">
+                    <a th:href="@{/clientes/editar/{id}(id=${c.idCliente})}" class="btn btn-success btn-sm">Editar</a>
+                    <form th:if="${c.activo}" th:action="@{/clientes/desactivar/{id}(id=${c.idCliente})}" method="post">
+                        <button type="submit" class="btn btn-danger btn-sm">Desactivar</button>
+                    </form>
+                    <form th:unless="${c.activo}" th:action="@{/clientes/activar/{id}(id=${c.idCliente})}" method="post">
+                        <button type="submit" class="btn btn-warning btn-sm">Activar</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
