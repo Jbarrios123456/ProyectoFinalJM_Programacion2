@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Devolucion - Rueda Libre</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4">
+    <nav class="nav nav-pills mb-4">
+        <a class="nav-link" th:href="@{/clientes}">Clientes</a>
+        <a class="nav-link" th:href="@{/equipos}">Equipos</a>
+        <a class="nav-link active" th:href="@{/alquileres}">Alquileres</a>
+    </nav>
+
+    <h1 class="mb-3" th:text="${'Devolucion del alquiler #' + alquiler.idAlquiler}"></h1>
+    <p>
+        Cliente: <strong th:text="${alquiler.cliente.nombre}"></strong> |
+        Entregado: <strong th:text="${alquiler.horaEntregaTexto}"></strong> |
+        Devolucion estimada: <strong th:text="${alquiler.horaEstimadaTexto}"></strong> |
+        Deposito: <strong th:text="${'Q' + alquiler.deposito}"></strong>
+    </p>
+
+    <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+    <form th:action="@{/alquileres/liquidar/{id}(id=${alquiler.idAlquiler})}" method="post">
+        <div class="mb-3 col-md-4">
+            <label class="form-label">Hora real de devolucion</label>
+            <input type="datetime-local" name="horaReal" class="form-control" th:value="${ahora}" required>
+        </div>
+
+        <h4>Estado de cada equipo</h4>
+        <table class="table table-bordered align-middle">
+            <thead>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Equipo</th>
+                    <th>Estado de devolucion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="e : ${alquiler.equipos}">
+                    <td th:text="${e.codigo}"></td>
+                    <td th:text="${e.tipo + ' ' + e.modelo}"></td>
+                    <td>
+                        <select class="form-select" th:name="${'estado_' + e.codigo}">
+                            <option value="BUENO">BUENO</option>
+                            <option value="DANADO">DANADO</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div th:unless="${alquiler.accesorios.isEmpty()}">
+            <h4>Accesorios extraviados</h4>
+            <table class="table table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th>Accesorio</th>
+                        <th>Cantidad prestada</th>
+                        <th>Extraviados</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="d : ${alquiler.accesorios}">
+                        <td th:text="${d.accesorio.nombre}"></td>
+                        <td th:text="${d.cantidad}"></td>
+                        <td>
+                            <input type="number" class="form-control" min="0" th:max="${d.cantidad}" value="0"
+                                   th:name="${'ext_' + d.accesorio.codigo}">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Calcular cobro</button>
+        <a th:href="@{/alquileres}" class="btn btn-secondary">Volver</a>
+    </form>
+</body>
+</html>
