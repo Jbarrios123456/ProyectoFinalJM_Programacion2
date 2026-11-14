@@ -48,3 +48,9 @@
 <h2>Plataformas Utilizadas</h2>
 
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white) ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+
+<h2>Diagrama de Entidad de Relación</h2>
+<img width="1024" height="385" alt="image" src="https://github.com/user-attachments/assets/c96289ca-f4f7-4051-89e2-0d0c34ac8f92" />
+<h2>Diagrama de Clases</h2>
+<img width="1024" height="547" alt="image" src="https://github.com/user-attachments/assets/5bc6e45d-1317-47ee-86c3-c57af22ca3d5" />
+
